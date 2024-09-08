@@ -58,7 +58,7 @@ pip install -r requirements.txt
 
 Use uvicorn to start the FastAPI server:
 ```
-uvicorn chatbot_app.main:app --reload
+uvicorn app.main:app --reload
 ```
 The application will now be running on `http://127.0.0.1:8000`. The `--reload` flag is useful for development as it automatically reloads the app when code changes.
 
