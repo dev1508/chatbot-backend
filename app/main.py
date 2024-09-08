@@ -17,7 +17,8 @@ def create_message(message: schemas.MessageCreate, db: Session = Depends(databas
     db.add(db_message)
     db.commit()
     db.refresh(db_message)
-    return db_message
+
+    return {"chat_response": response}
 
 
 @app.get("/messages", response_model=List[schemas.MessageResponse])
@@ -45,7 +46,8 @@ def edit_message(message_id: int, updated_message: schemas.MessageUpdate, db: Se
     db.add(new_message)
     db.commit()
     db.refresh(new_message)
-    return new_message
+
+    return {"chat_response": response}
 
 
 @app.delete("/messages/{message_id}", response_model=schemas.MessageResponse)
@@ -56,4 +58,5 @@ def delete_message(message_id: int, db: Session = Depends(database.get_db)):
 
     db.delete(message)
     db.commit()
-    return message
+
+    return {"status": "Message deleted successfully"}
