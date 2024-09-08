@@ -8,7 +8,7 @@ app = FastAPI()
 
 models.Base.metadata.create_all(bind=database.engine)
 
-@app.post("/messages", response_model=schemas.MessageResponse)
+@app.post("/messages", response_model=schemas.ChatResponse)
 def create_message(message: schemas.MessageCreate, db: Session = Depends(database.get_db)):
 
     response = chatbot_responses.get(message.user_message.lower(), "I'm not sure how to respond to that.")
@@ -26,7 +26,7 @@ def get_all_messages(db: Session = Depends(database.get_db)):
     return db.query(models.Message).all()
 
 
-@app.put("/messages/{message_id}", response_model=schemas.MessageResponse)
+@app.put("/messages/{message_id}", response_model=schemas.ChatResponse)
 def edit_message(message_id: int, updated_message: schemas.MessageUpdate, db: Session = Depends(database.get_db)):
 
     original_message = db.query(models.Message).filter(models.Message.id == message_id).first()
@@ -50,7 +50,7 @@ def edit_message(message_id: int, updated_message: schemas.MessageUpdate, db: Se
     return {"chat_response": response}
 
 
-@app.delete("/messages/{message_id}", response_model=schemas.MessageResponse)
+@app.delete("/messages/{message_id}")
 def delete_message(message_id: int, db: Session = Depends(database.get_db)):
     message = db.query(models.Message).filter(models.Message.id == message_id).first()
     if not message:

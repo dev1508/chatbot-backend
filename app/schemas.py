@@ -10,6 +10,9 @@ class MessageCreate(MessageBase):
 class MessageUpdate(MessageBase):
     pass
 
+class ChatResponse(BaseModel):
+    chat_response: str
+
 class MessageResponse(BaseModel):
     id: int
     user_message: str
