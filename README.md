@@ -103,6 +103,8 @@ app/
 
 ---
 
-Enjoy building with FastAPI! 😊
+### Notes 
+1. For a fresh start, you may consider deleting the existing `messages.db` file.
+2. A postman collection of apis is already added in the project. You may import it.
 
 ---
