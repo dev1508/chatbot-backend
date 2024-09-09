@@ -94,13 +94,14 @@ curl -X DELETE "http://127.0.0.1:8000/messages/1"
 
 ## Project Structure
 
+```
 app/  
 ├── main.py  
 ├── database.py  
 ├── models.py  
 ├── schemas.py  
 └── chatbot_responses.py
-
+```
 ---
 
 ### Notes 
