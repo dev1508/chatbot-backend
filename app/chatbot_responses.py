@@ -2,6 +2,7 @@ chatbot_responses = {
     "hello": "Hi there! How can I assist you today?",
     "hi": "Hello! What can I help you with today?",
     "hey": "Hey there! How can I help you today?",
+    "no worries": "Hey there! How can I help you today?",
     "what's up": "Hey there! How can I help you today?",
     "company": "We're a Saas company. Want to learn more about our services?",
     "help": "I'm here to help! Could you describe the issue you're facing?",
