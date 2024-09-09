@@ -107,5 +107,5 @@ app/
 ### Notes 
 1. For a fresh start, you may consider deleting the existing `messages.db` file.
 2. A postman collection of apis is already added in the project. You may import it.
-
+3. This project can be viewed locally using `https://github.com/dev1508/chatbot-frontend`.
 ---
