@@ -20,14 +20,14 @@ models.Base.metadata.create_all(bind=database.engine)
 @app.post("/messages", response_model=schemas.ChatResponse)
 def create_message(message: schemas.MessageCreate, db: Session = Depends(database.get_db)):
 
-    response = chatbot_responses.get(message.user_message.lower(), "I'm not sure how to respond to that.")
+    response = find_chatbot_response(message.user_message)
 
     db_message = models.Message(user_message=message.user_message, chat_response=response)
     db.add(db_message)
     db.commit()
     db.refresh(db_message)
 
-    return {"chat_response": response}
+    return {"chat_response": response, "id": db_message.id}
 
 
 @app.get("/messages", response_model=List[schemas.MessageResponse])
@@ -42,7 +42,10 @@ def edit_message(message_id: int, updated_message: schemas.MessageUpdate, db: Se
     if not original_message:
         raise HTTPException(status_code=404, detail="Message not found")
 
-    response = chatbot_responses.get(updated_message.user_message.lower(), "I'm not sure how to respond to that.")
+    if original_message.is_edited:
+        raise HTTPException(status_code=400, detail="Already edited")
+
+    response = find_chatbot_response(updated_message.user_message)
 
     original_message.is_edited = True
     db.commit()
@@ -56,7 +59,7 @@ def edit_message(message_id: int, updated_message: schemas.MessageUpdate, db: Se
     db.commit()
     db.refresh(new_message)
 
-    return {"chat_response": response}
+    return {"chat_response": response, "id": new_message.id}
 
 
 @app.delete("/messages/{message_id}")
@@ -69,3 +72,14 @@ def delete_message(message_id: int, db: Session = Depends(database.get_db)):
     db.commit()
 
     return {"status": "Message deleted successfully"}
+
+
+def find_chatbot_response(user_message: str) -> str:
+
+    user_message = user_message.lower()
+
+    for key in chatbot_responses:
+        if key in user_message:
+            return chatbot_responses[key]
+
+    return "I'm not sure how to respond to that."

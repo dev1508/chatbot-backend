@@ -11,6 +11,7 @@ class MessageUpdate(MessageBase):
     pass
 
 class ChatResponse(BaseModel):
+    id: int
     chat_response: str
 
 class MessageResponse(BaseModel):
